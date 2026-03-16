@@ -710,21 +710,21 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             <StatCard
               icon={<FileText className="w-10 h-10" />}
-              value={1500}
+              value={2000}
               label="Slides Prepared"
               delay={0}
               triggered={statsTriggered}
             />
             <StatCard
               icon={<Presentation className="w-10 h-10" />}
-              value={120}
+              value={105}
               label="Presentations Designed"
               delay={100}
               triggered={statsTriggered}
             />
             <StatCard
               icon={<Users className="w-10 h-10" />}
-              value={50}
+              value={7}
               label="Clients Served"
               delay={200}
               triggered={statsTriggered}
@@ -739,7 +739,7 @@ export default function HomePage() {
             />
             <StatCard
               icon={<PenTool className="w-10 h-10" />}
-              value={200}
+              value={60}
               label="Marketing Assets &amp; Branding Projects"
               delay={400}
               triggered={statsTriggered}

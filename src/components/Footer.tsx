@@ -2,11 +2,19 @@ import { CheckCircle, Instagram, Linkedin, Loader2, Send } from "lucide-react";
 import { useState } from "react";
 import { useActor } from "../hooks/useActor";
 
+function splitName(fullName: string) {
+  const trimmed = fullName.trim();
+  const [firstName, ...rest] = trimmed.split(/\s+/);
+  return {
+    firstName,
+    lastName: rest.join(" "),
+  };
+}
+
 export default function Footer() {
   const { actor } = useActor();
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     phone: "",
     company: "",
@@ -22,33 +30,94 @@ export default function Footer() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const resetForm = () => {
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      message: "",
+    });
+  };
+
+  const submitToGoogle = async () => {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        company: form.company.trim(),
+        message: form.message.trim(),
+        source: typeof window !== "undefined" ? window.location.href : "website",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Contact API request failed.");
+    }
+
+    const result = (await response.json()) as { ok?: boolean; error?: string };
+    if (!result.ok) {
+      throw new Error(result.error || "Contact API request failed.");
+    }
+  };
+
+  const buildActorSubject = () => {
+    const payload = new URLSearchParams({
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      company: form.company.trim(),
+    });
+    return payload.toString();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!actor) {
-      setError("Not connected. Please try again.");
+    const trimmedForm = {
+      name: form.name.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
+      company: form.company.trim(),
+      message: form.message.trim(),
+    };
+
+    if (Object.values(trimmedForm).some((value) => value.length === 0)) {
+      setError("Please fill in all fields.");
       return;
     }
+
     setLoading(true);
     setError("");
     try {
-      await actor.submitContactForm(
-        form.firstName,
-        form.lastName,
-        form.email,
-        form.company || "(not provided)",
-        form.message,
-      );
+      const { firstName, lastName } = splitName(trimmedForm.name);
+
+      await submitToGoogle();
+
+      if (actor) {
+        try {
+          await actor.submitContactForm(
+            firstName,
+            lastName,
+            trimmedForm.email,
+            buildActorSubject(),
+            trimmedForm.message,
+          );
+        } catch (actorError) {
+          console.warn("Canister contact submission failed", actorError);
+        }
+      }
+
       setSuccess(true);
-      setForm({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        company: "",
-        message: "",
-      });
-    } catch {
-      setError("Something went wrong. Please try again.");
+      resetForm();
+    } catch (submitError) {
+      console.error(submitError);
+      setError(
+        "The form could not be submitted. Please verify the webhook setup and try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -255,6 +324,20 @@ export default function Footer() {
                   <span>Instagram</span>
                 </a>
               </div>
+              <div className="space-y-2 text-sm">
+                <a
+                  href="mailto:kawaljeet@aesthara.in"
+                  className="block text-white/70 hover:text-white transition-colors"
+                >
+                  kawaljeet@aesthara.in
+                </a>
+                <a
+                  href="mailto:kawaljeet.karir9@gmail.com"
+                  className="block text-white/70 hover:text-white transition-colors"
+                >
+                  kawaljeet.karir9@gmail.com
+                </a>
+              </div>
               <p className="text-white/60 text-sm">Mumbai | India</p>
             </div>
           </div>
@@ -288,8 +371,8 @@ export default function Footer() {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid sm:grid-cols-2 gap-4">
                       <input
-                        name="firstName"
-                        value={form.firstName}
+                        name="name"
+                        value={form.name}
                         onChange={handleChange}
                         required
                         placeholder="Name"
@@ -312,6 +395,7 @@ export default function Footer() {
                         name="phone"
                         value={form.phone}
                         onChange={handleChange}
+                        required
                         placeholder="Phone Number"
                         className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 focus:border-[#FFC32E] focus:ring-2 focus:ring-[#FFC32E]/20 transition-all outline-none text-white placeholder-white/50"
                       />
@@ -319,6 +403,7 @@ export default function Footer() {
                         name="company"
                         value={form.company}
                         onChange={handleChange}
+                        required
                         placeholder="Company"
                         className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 focus:border-[#FFC32E] focus:ring-2 focus:ring-[#FFC32E]/20 transition-all outline-none text-white placeholder-white/50"
                       />
