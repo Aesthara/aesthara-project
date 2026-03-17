@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import PortfolioPage from "./pages/PortfolioPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 // Suppress unused Link warning - it's used by child routes
 const _Link = Link;
@@ -38,7 +39,13 @@ const portfolioRoute = createRoute({
   component: PortfolioPage,
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, portfolioRoute]);
+const privacyPolicyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/privacy-policy",
+  component: PrivacyPolicyPage,
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, portfolioRoute, privacyPolicyRoute]);
 
 const router = createRouter({ routeTree });
 

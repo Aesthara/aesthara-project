@@ -1,4 +1,5 @@
 import { CheckCircle, Instagram, Linkedin, Loader2, Send } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useActor } from "../hooks/useActor";
 
@@ -483,12 +484,12 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 pt-8 mt-12 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-sm">Aesthara © {year}</p>
-          <button
-            type="button"
+          <Link
+            to="/privacy-policy"
             className="text-white/40 hover:text-white/60 text-sm transition-colors"
           >
             Privacy Policy
-          </button>
+          </Link>
         </div>
       </div>
     </footer>

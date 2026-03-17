@@ -9,8 +9,9 @@ export default function Navbar() {
   const router = useRouter();
   const location = useRouterState({ select: (s) => s.location });
 
-  const isPortfolio = location.pathname === "/portfolio";
-  const variant = isPortfolio ? "light" : "transparent";
+  const pathname = location.pathname.replace(/\/+$/g, "") || "/";
+  const isHome = pathname === "/";
+  const variant = isHome ? "transparent" : "light";
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 100);

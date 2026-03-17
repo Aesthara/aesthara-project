@@ -313,7 +313,7 @@ export default function HomePage() {
               transition: "all 0.7s ease-out",
             }}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.3] tracking-tight text-white mb-8">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DF9F57] via-[#FFC32E] to-[#DF9F57]">
                 Elevating Brands
               </span>
@@ -556,7 +556,7 @@ export default function HomePage() {
               }}
             >
               <div className="flex-1 order-2 lg:order-1">
-                <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#005280] to-[#DF9F57] mb-3">
+                <h3 className="text-2xl sm:text-3xl font-bold leading-[1.3] text-transparent bg-clip-text bg-gradient-to-r from-[#005280] to-[#DF9F57] mb-6">
                   Presentation Design
                 </h3>
                 <p className="text-gray-600 mb-2">
@@ -615,7 +615,7 @@ export default function HomePage() {
               }}
             >
               <div className="flex-1">
-                <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#005280] to-[#DF9F57] mb-3">
+                <h3 className="text-2xl sm:text-3xl font-bold leading-[1.3] text-transparent bg-clip-text bg-gradient-to-r from-[#005280] to-[#DF9F57] mb-6">
                   Graphic &amp; Visual Design
                 </h3>
                 <p className="text-gray-600 mb-2">
@@ -650,7 +650,7 @@ export default function HomePage() {
               <div className="flex-1">
                 <div className="relative rounded-2xl overflow-hidden shadow-xl">
                   <img
-                    src="/assets/Graphic Design Services.png"
+                    src="/assets/Graphic Design Services home.png"
                     alt="Graphic Design"
                     className="w-full h-auto object-cover"
                   />
@@ -671,7 +671,7 @@ export default function HomePage() {
               }}
             >
               <div className="flex-1 order-2 lg:order-1">
-                <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#005280] to-[#DF9F57] mb-3">
+                <h3 className="text-2xl sm:text-3xl font-bold leading-[1.3] text-transparent bg-clip-text bg-gradient-to-r from-[#005280] to-[#DF9F57] mb-6">
                   Branding
                 </h3>
                 <p className="text-gray-600 mb-2">
@@ -777,6 +777,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Brand logos */}
+      {/* Moved below testimonials */}
       {/* Process */}
       <section
         id="process"
@@ -889,6 +891,36 @@ export default function HomePage() {
                     {t.role}
                   </p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Brand logos */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#094185] mb-3">
+              Clients Served
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center gap-8">
+            {[
+              "Kisankonnect.jpg",
+              "RYVR.jpg",
+              "HelloTax JPG.jpg",
+              "QT Logo.jpg",
+              "Circolife.jpg",
+              "Exponentia.jpg",
+            ].map((file) => (
+              <div key={file} className="flex items-center justify-center w-32 h-16">
+                <img
+                  src={`/assets/Client logos/${file}`}
+                  alt={file.replace(/\.(png|jpe?g)$/i, "")}
+                  className="max-h-full max-w-full object-contain"
+                />
               </div>
             ))}
           </div>
