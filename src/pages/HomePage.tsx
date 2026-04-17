@@ -912,6 +912,7 @@ export default function HomePage() {
 
           <div className="flex flex-wrap justify-center items-center gap-8">
             {[
+              "BergnerLogo_19159.jpeg",
               "Kisankonnect.jpg",
               "RYVR.jpg",
               "HelloTax JPG.jpg",
